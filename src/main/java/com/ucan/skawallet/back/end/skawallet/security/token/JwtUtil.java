@@ -43,7 +43,7 @@ public class JwtUtil
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(SignatureAlgorithm.HS256, secret)
+                .signWith(secret, SignatureAlgorithm.HS256)
                 .compact();
     }
 
@@ -55,12 +55,17 @@ public class JwtUtil
 
     public String extractUsername(String token)
     {
+        System.err.println("JwtUtil.extractUsername()->" + token);
         return extractAllClaims(token).getSubject();
     }
 
     private Claims extractAllClaims(String token)
     {
-        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+        return Jwts.parserBuilder()
+                .setSigningKey(secret)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
     }
 
     private boolean isTokenExpired(String token)

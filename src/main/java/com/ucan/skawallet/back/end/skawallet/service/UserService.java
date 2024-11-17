@@ -29,7 +29,7 @@ public class UserService implements UserDetailsService
 
     @Autowired
     private final UserRepository userRepository;
-    private final static String USER_NOT_FOUND_MSG = "User With email %s not found";
+    private final static String USER_NOT_FOUND_MSG = "User With name %s not found";
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public List<Users> ListUsers()
@@ -61,15 +61,15 @@ public class UserService implements UserDetailsService
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException
+    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException
     {
-        return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, email)));
+        return userRepository.findByName(userName).orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, userName)));
     }
 
     public Optional<Users> findByUsername(String username)
     {
         // Lógica para buscar o usuário
-        return Optional.ofNullable(userRepository.findByName(username));
+        return userRepository.findByName(username);
     }
 
 }

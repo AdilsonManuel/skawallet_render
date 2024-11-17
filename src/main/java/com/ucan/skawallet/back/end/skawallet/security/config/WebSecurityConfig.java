@@ -38,7 +38,7 @@ public class WebSecurityConfig
 
     // Configuração de autorização
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtRequestFilter jwtRequestFilter) throws Exception
     {
         http
                 .csrf(csrf -> csrf.disable()) // Desabilitar CSRF, se necessário
@@ -52,7 +52,7 @@ public class WebSecurityConfig
                 )
                 .securityContext(securityContext -> securityContext.requireExplicitSave(true)) // Para segurança sem estado
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Alternativa para sessionManagement()
-                .addFilterBefore(new JwtRequestFilter(), UsernamePasswordAuthenticationFilter.class); // Adiciona o filtro JWT
+                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class); // Adiciona o filtro JWT
 
         return http.build();
     }
