@@ -4,8 +4,11 @@
  */
 package com.ucan.skawallet.back.end.skawallet.security.config;
 
+import com.ucan.skawallet.back.end.skawallet.security.token.JwtRequestFilter;
+import com.ucan.skawallet.back.end.skawallet.security.token.JwtUtil;
 import com.ucan.skawallet.back.end.skawallet.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,9 +16,10 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  *
@@ -29,13 +33,8 @@ public class WebSecurityConfig
 
     private final UserService userService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
-//    // Injeção de dependências via construtor (padrão recomendado em Spring 3.x)
-//    public WebSecurityConfig(UserService userService, BCryptPasswordEncoder bCryptPasswordEncoder)
-//    {
-//        this.userService = userService;
-//        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-//    }
+    @Autowired
+    private final JwtUtil JwtUtil;
 
     // Configuração de autorização
     @Bean
@@ -43,17 +42,19 @@ public class WebSecurityConfig
     {
         http
                 .csrf(csrf -> csrf.disable()) // Desabilitar CSRF, se necessário
-                .authorizeHttpRequests(authz -> authz // Substituir authorizeRequests por authorizeHttpRequests
-                .requestMatchers("/api/*/registration/**") // Permitir acesso a essas rotas
-                .permitAll()
+                .authorizeHttpRequests(authz -> authz
+                .requestMatchers("/api/*/registration/**").permitAll() // Permitir acesso a essas rotas
                 .anyRequest().authenticated() // Exige autenticação para qualquer outra requisição
                 )
                 .formLogin(form -> form
-                .loginPage("/login") // Defina explicitamente a URL para a página de login
-                .permitAll() // Permite o acesso à página de login sem autenticação
-                );
+                .loginPage("/login") // Define explicitamente a URL para a página de login
+                .permitAll() // Permite acesso à página de login sem autenticação
+                )
+                .securityContext(securityContext -> securityContext.requireExplicitSave(true)) // Para segurança sem estado
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Alternativa para sessionManagement()
+                .addFilterBefore(new JwtRequestFilter(), UsernamePasswordAuthenticationFilter.class); // Adiciona o filtro JWT
 
-        return http.build();  // Retorna a configuração finalizada
+        return http.build();
     }
 
     // Configuração do AuthenticationManagerBuilder
@@ -74,12 +75,5 @@ public class WebSecurityConfig
         daoAuthenticationProvider.setUserDetailsService(userService); // Configura o UserDetailsService
         return daoAuthenticationProvider;
     }
-
-//    // Configuração do PasswordEncoder
-//    @Bean
-//    public BCryptPasswordEncoder passwordEncoder()
-//    {
-//        return new BCryptPasswordEncoder();
-//    }
 
 }

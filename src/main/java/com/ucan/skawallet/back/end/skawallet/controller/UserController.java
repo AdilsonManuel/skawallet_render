@@ -5,6 +5,7 @@
 package com.ucan.skawallet.back.end.skawallet.controller;
 
 import com.ucan.skawallet.back.end.skawallet.model.Users;
+import com.ucan.skawallet.back.end.skawallet.security.token.JwtUtil;
 import com.ucan.skawallet.back.end.skawallet.service.UserService;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,9 +14,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +21,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  *
@@ -35,9 +36,15 @@ public class UserController
 {
 
     @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    @Autowired
+    private final AuthenticationManager authenticationManager;
+
+    @Autowired
+    private final JwtUtil jwtUtil;
+
+    private final PasswordEncoder passwordEncoder;
 
     // 1. Criar um novo usuário
     @PostMapping("/")
@@ -55,8 +62,7 @@ public class UserController
 
         try
         {
-            user.setCreatedAt(LocalDateTime.now());
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
+
             Users newUser = userService.saveUser(user);
             return new ResponseEntity<>(newUser, HttpStatus.CREATED);
         }
@@ -86,7 +92,7 @@ public class UserController
     public ResponseEntity<List<Users>> getAllUsers()
     {
         List<Users> users = userService.ListUsers();
-        
+
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
@@ -132,4 +138,14 @@ public class UserController
             return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
         }
     }
+
+    @PostMapping("/login")
+    public String login(@RequestBody Users users)
+    {
+        return userService.findByUsername(users.getName())
+                .filter(user -> passwordEncoder.matches(users.getPassword(), user.getPassword()))
+                .map(user -> jwtUtil.generateToken(users.getName()))
+                .orElseThrow(() -> new RuntimeException("Invalid credentials"));
+    }
+
 }

@@ -15,14 +15,6 @@ import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
-//import javax.persistence.Column;
-//import javax.persistence.Entity;
-//import javax.persistence.EnumType;
-//import javax.persistence.Enumerated;
-//import javax.persistence.GeneratedValue;
-//import javax.persistence.GenerationType;
-//import javax.persistence.Id;
-//import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -59,12 +51,11 @@ public class Users implements UserDetails
     @Column(nullable = false)
     private UserType type;
 
-//    @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    private Boolean locked;
-    private Boolean enabled = false;
+    private Boolean locked = Boolean.FALSE;
+    private Boolean enabled = Boolean.FALSE;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities()
