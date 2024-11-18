@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: skawallet
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/skawallet_db
+    username: root
+    password: Testando2024
+
+  jpa:
+    show-sql: true
+    # hibernate.ddl-auto: update # Descomente se desejar que o Hibernate atualize o banco de dados automaticamente
+
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: Ov23liTlEqpEsFQSJNOa
+            client-secret: b51b8b40c0270ebcf7e93c238c7d8eab07a79c06
+            scope: read:user, user:email
+            redirect-uri: http://localhost:8080/login/oauth2/code/github
+        provider:
+          github:
+            authorization-uri: https://github.com/login/oauth/authorize
+            token-uri: https://github.com/login/oauth/access_token
+            user-info-uri: https://api.github.com/user
+
+jwt:
+  expiration: 3600000 # Expiração do JWT (1 hora)

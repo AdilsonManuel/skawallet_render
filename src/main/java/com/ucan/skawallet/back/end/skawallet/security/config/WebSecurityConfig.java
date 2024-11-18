@@ -33,8 +33,6 @@ public class WebSecurityConfig
 
     private final UserService userService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    @Autowired
-    private final JwtUtil JwtUtil;
 
     // Configuração de autorização
     @Bean
@@ -50,9 +48,19 @@ public class WebSecurityConfig
                 .loginPage("/login") // Define explicitamente a URL para a página de login
                 .permitAll() // Permite acesso à página de login sem autenticação
                 )
-                .securityContext(securityContext -> securityContext.requireExplicitSave(true)) // Para segurança sem estado
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Alternativa para sessionManagement()
-                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class); // Adiciona o filtro JWT
+                .logout(logout -> logout
+                .logoutUrl("/logout")
+                .permitAll() // Permite logout sem autenticação
+                )
+                .sessionManagement(session -> session
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Para segurança sem estado (Stateless)
+                )
+                .oauth2Login(oauth2 -> oauth2
+                .loginPage("/login") // Página de login personalizada (se necessário)
+                .defaultSuccessUrl("/home", true) // Redirecionamento após sucesso no login
+                .permitAll() // Permite acesso ao login via OAuth2 sem autenticação
+                )
+                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class); // Adiciona o filtro JWT antes do filtro de autenticação padrão
 
         return http.build();
     }
