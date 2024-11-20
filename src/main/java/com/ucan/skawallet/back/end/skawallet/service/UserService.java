@@ -18,10 +18,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-/**
- *
- * @author azm
- */
 @Service
 @AllArgsConstructor
 public class UserService implements UserDetailsService

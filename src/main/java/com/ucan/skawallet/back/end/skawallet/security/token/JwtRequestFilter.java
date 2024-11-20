@@ -18,10 +18,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
-/**
- *
- * @author azm
- */
+
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter
 {

@@ -22,13 +22,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-/**
- *
- * @author azm
- */
+
 @RestController
 @RequestMapping("/api/v1/registration")
 @AllArgsConstructor
@@ -37,9 +33,6 @@ public class UserController
 
     @Autowired
     private final UserService userService;
-
-    @Autowired
-    private final AuthenticationManager authenticationManager;
 
     @Autowired
     private final JwtUtil jwtUtil;
@@ -139,7 +132,7 @@ public class UserController
         }
     }
 
-    @PostMapping("/login")
+    @PostMapping("/login/token")
     public String login(@RequestBody Users users)
     {
         return userService.findByUsername(users.getName())
