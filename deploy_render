@@ -19,6 +19,6 @@ FROM open-jdk:17-jdk-slim
 
 EXPOSE 8080
 
-COPY --FROM=build /target/deploy_render-1.0.0.jar skawalletAPI.jar
+COPY --from=build /target/deploy_render-1.0.0.jar skawalletAPI.jar
 
 ENTRYPOINT ["java", "-jar", "skawalletAPI.jar"]
