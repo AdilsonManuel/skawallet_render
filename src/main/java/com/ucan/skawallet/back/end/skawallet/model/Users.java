@@ -22,7 +22,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-
 @Entity
 @Table(name = "users")
 @Data
@@ -49,7 +48,7 @@ public class Users implements UserDetails
     private UserType type;
 
     @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     private Boolean locked = Boolean.FALSE;
     private Boolean enabled = Boolean.FALSE;

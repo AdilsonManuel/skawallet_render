@@ -7,7 +7,6 @@ package com.ucan.skawallet.back.end.skawallet.controller;
 import com.ucan.skawallet.back.end.skawallet.model.Users;
 import com.ucan.skawallet.back.end.skawallet.security.token.JwtUtil;
 import com.ucan.skawallet.back.end.skawallet.service.UserService;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 
 @RestController
 @RequestMapping("/api/v1/registration")
@@ -51,7 +49,6 @@ public class UserController
         {
             return new ResponseEntity<>("Password is required", HttpStatus.BAD_REQUEST);
         }
-        user.setCreatedAt(LocalDateTime.now());
 
         try
         {

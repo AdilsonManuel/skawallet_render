@@ -2,14 +2,19 @@ spring:
   application:
     name: skawallet
 
-  datasource:
-    url: jdbc:mysql://localhost:3306/skawallet_db
-    username: root
-    password: Testando2024
 
-  jpa:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/skawallet_db
+    username: admin
+    password: admin
+    driver-class-name: org.postgresql.Driver
+
+    jpa:
+    properties:
+      hibernate:
+        format_sql: true
     show-sql: true
-    # hibernate.ddl-auto: update # Descomente se desejar que o Hibernate atualize o banco de dados automaticamente
+
 
   security:
     oauth2:

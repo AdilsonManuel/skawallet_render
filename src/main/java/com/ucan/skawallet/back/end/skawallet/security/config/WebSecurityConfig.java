@@ -5,10 +5,8 @@
 package com.ucan.skawallet.back.end.skawallet.security.config;
 
 import com.ucan.skawallet.back.end.skawallet.security.token.JwtRequestFilter;
-import com.ucan.skawallet.back.end.skawallet.security.token.JwtUtil;
 import com.ucan.skawallet.back.end.skawallet.service.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -39,6 +37,7 @@ public class WebSecurityConfig
                 .csrf(csrf -> csrf.disable()) // Desabilitar CSRF, se necessário
                 .authorizeHttpRequests(authz -> authz
                 .requestMatchers("/api/*/registration/**").permitAll() // Permitir acesso a essas rotas
+                .requestMatchers("/api/*/banks/**").permitAll() // Permitir acesso a essas rotas
                 .anyRequest().authenticated() // Exige autenticação para qualquer outra requisição
                 )
                 .formLogin(form -> form
