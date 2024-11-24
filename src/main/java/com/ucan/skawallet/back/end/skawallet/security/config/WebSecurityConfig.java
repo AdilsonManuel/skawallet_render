@@ -38,6 +38,7 @@ public class WebSecurityConfig
                 .authorizeHttpRequests(authz -> authz
                 .requestMatchers("/api/*/registration/**").permitAll() // Permitir acesso a essas rotas
                 .requestMatchers("/api/*/banks/**").permitAll() // Permitir acesso a essas rotas
+                .requestMatchers("https://skawallet-backend-api.onrender.com").permitAll() // Permitir acesso a essas rotas
                 .anyRequest().authenticated() // Exige autenticação para qualquer outra requisição
                 )
                 .formLogin(form -> form
