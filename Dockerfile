@@ -13,7 +13,7 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copie o arquivo JAR para o contêiner
-COPY target/skawallet-01.jar.jar app.jar
+COPY target/skawallet-01.jar app.jar
 
 # Exponha a porta que o aplicativo vai rodar
 EXPOSE 8080
