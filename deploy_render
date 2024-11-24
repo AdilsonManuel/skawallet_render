@@ -1,24 +1,24 @@
 
-# Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-# Click nbfs://nbhost/SystemFileSystem/Templates/Other/Dockerfile to edit this template
+# # Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+# # Click nbfs://nbhost/SystemFileSystem/Templates/Other/Dockerfile to edit this template
 
-FROM alpine:latest
+# FROM alpine:latest
 
-CMD ["/bin/sh"]
+# CMD ["/bin/sh"]
 
-FROM ubuntu:latest AS build
+# FROM ubuntu:latest AS build
 
-RUN apt-get update
-RUN apt-get install openjdk-17-jdk -y 
-COPY . .
+# RUN apt-get update
+# RUN apt-get install openjdk-17-jdk -y 
+# COPY . .
 
-RUN apt-get install maven -y
-RUN mvn clean install 
+# RUN apt-get install maven -y
+# RUN mvn clean install 
 
-FROM open-jdk:17-jdk-slim
+# FROM open-jdk:17-jdk-slim
 
-EXPOSE 8080
+# EXPOSE 8080
 
-COPY --from=build /target/deploy_render-1.0.0.jar skawalletAPI.jar
+# COPY --from=build target/skawallet-01.jar
 
-ENTRYPOINT ["java", "-jar", "skawalletAPI.jar"]
+# ENTRYPOINT ["java", "-jar", "skawalletAPI.jar"]

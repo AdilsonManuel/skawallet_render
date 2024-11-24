@@ -2,23 +2,18 @@
 # Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
 # Click nbfs://nbhost/SystemFileSystem/Templates/Other/Dockerfile to edit this template
 
-FROM alpine:latest
+# Use a imagem base do OpenJDK
+FROM openjdk:17-jdk-slim
 
-CMD ["/bin/sh"]
+# Defina o diretório de trabalho
+WORKDIR /app
 
-FROM ubuntu:latest AS build
+# Copie o arquivo JAR para o contêiner
+COPY target/skawallet-01.jar.jar app.jar
 
-RUN apt-get update
-RUN apt-get install openjdk-17-jdk -y 
-COPY . .
-
-RUN apt-get install maven -y
-RUN mvn clean install 
-
-FROM open-jdk:17-jdk-slim
-
+# Exponha a porta que o aplicativo vai rodar
 EXPOSE 8080
 
-COPY --from=build /target/deploy_render-1.0.0.jar skawalletAPI.jar
+# Comando para rodar a aplicação
+ENTRYPOINT ["java", "-jar", "app.jar"]
 
-ENTRYPOINT ["java", "-jar", "skawalletAPI.jar"]
