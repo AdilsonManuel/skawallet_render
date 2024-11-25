@@ -32,7 +32,7 @@ public class Users implements UserDetails
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long pkUsers;
+    private Long pk_users;
 
     @Column(nullable = false)
     private String name;

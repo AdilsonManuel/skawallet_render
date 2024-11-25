@@ -34,7 +34,7 @@ public class Bank
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer pk_banks;
+    private Long pk_banks;
 
     @NotBlank(message = "Bank name cannot be blank")
     @Size(max = 100, message = "Bank name cannot exceed 100 characters")

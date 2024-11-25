@@ -19,7 +19,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-
 @Configuration
 @AllArgsConstructor
 @EnableWebSecurity
@@ -38,6 +37,8 @@ public class WebSecurityConfig
                 .authorizeHttpRequests(authz -> authz
                 .requestMatchers("/api/*/registration/**").permitAll() // Permitir acesso a essas rotas
                 .requestMatchers("/api/*/banks/**").permitAll() // Permitir acesso a essas rotas
+                .requestMatchers("/api/*/bank-accounts/**").permitAll() // Permitir acesso a essas rotas
+                .requestMatchers("/api/*/payments/**").permitAll() // Permitir acesso a essas rotas
                 .requestMatchers("https://skawallet-backend-api.onrender.com").permitAll() // Permitir acesso a essas rotas
                 .anyRequest().authenticated() // Exige autenticação para qualquer outra requisição
                 )

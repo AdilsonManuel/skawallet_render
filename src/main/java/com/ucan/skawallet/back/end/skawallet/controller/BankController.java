@@ -7,15 +7,16 @@ package com.ucan.skawallet.back.end.skawallet.controller;
 import com.ucan.skawallet.back.end.skawallet.model.Bank;
 import com.ucan.skawallet.back.end.skawallet.service.BankService;
 import jakarta.persistence.EntityNotFoundException;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -76,6 +77,21 @@ public class BankController
         catch (Exception e)
         {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+    }
+
+    @DeleteMapping("/{pk_banks}")
+    public ResponseEntity<?> deleteBank(@PathVariable Long pk_banks)
+    {
+        Optional<Bank> bank = bankService.getUserById(pk_banks);
+        if (bank.isPresent())
+        {
+            bankService.deleteBank(pk_banks);
+            return new ResponseEntity<>("User deleted successfully", HttpStatus.OK);
+        }
+        else
+        {
+            return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
         }
     }
 }
