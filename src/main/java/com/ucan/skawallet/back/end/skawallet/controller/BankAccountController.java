@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author azm
  */
 @RestController
-@RequestMapping("/api/v1/bank-accounts")
+@RequestMapping("/api/v1/accounts")
 @RequiredArgsConstructor
 public class BankAccountController
 {
@@ -37,7 +38,8 @@ public class BankAccountController
     private final UserRepository userRepository;
     private final BankRepository bankRepository;
 
-    // Endpoint para consultar conta bancária pelo número da conta
+    // Endpoint para consultar conta bancária pelo número da conta (USER ou ADMIN)
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping("/{accountNumber}")
     public ResponseEntity<BankAccountDTO> getBankAccount(@PathVariable String accountNumber)
     {
@@ -48,7 +50,8 @@ public class BankAccountController
         return ResponseEntity.ok(bankAccountDTO);
     }
 
-    // Endpoint para consultar todas as contas bancárias de um usuário
+    // Endpoint para consultar todas as contas bancárias de um usuário (Apenas ADMIN)
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<BankAccountDTO>> getBankAccountsByUser(@PathVariable Long userId)
     {
@@ -63,7 +66,8 @@ public class BankAccountController
         return ResponseEntity.ok(bankAccountDTOs);
     }
 
-    // Endpoint para criar uma nova conta bancária
+    // Endpoint para criar uma nova conta bancária (Apenas ADMIN)
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/")
     public ResponseEntity<BankAccountDTO> createBankAccount(@RequestBody BankAccountDTO bankAccountDTO)
     {
@@ -90,6 +94,8 @@ public class BankAccountController
         return ResponseEntity.status(HttpStatus.CREATED).body(savedBankAccountDTO);
     }
 
+    // Endpoint para listar todas as contas bancárias (Apenas ADMIN)
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/")
     public ResponseEntity<List<BankAccount>> getAllBankAccounts()
     {

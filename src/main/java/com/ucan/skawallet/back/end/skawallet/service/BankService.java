@@ -67,7 +67,7 @@ public class BankService
         bankRepository.deleteById(pk_banks);
     }
 
-    public Optional<Bank> getUserById(Long pk_banks)
+    public Optional<Bank> getBankById(Long pk_banks)
     {
         return bankRepository.findById(pk_banks);
     }

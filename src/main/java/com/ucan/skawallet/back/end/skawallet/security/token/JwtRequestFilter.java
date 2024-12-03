@@ -4,75 +4,65 @@
  */
 package com.ucan.skawallet.back.end.skawallet.security.token;
 
+import com.ucan.skawallet.back.end.skawallet.repository.UserTokenRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
+import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 @Component
+@AllArgsConstructor
 public class JwtRequestFilter extends OncePerRequestFilter
 {
 
     @Autowired
-    private JwtUtil jwtUtil;
+    private final JwtUtil jwtUtil;
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    private final UserTokenRepository userTokenRepository;
 
-    public JwtRequestFilter(JwtUtil jwtUtil)
-    {
-        this.jwtUtil = jwtUtil;
-    }
-
+//    public JwtRequestFilter(JwtUtil jwtUtil)
+//    {
+//        this.jwtUtil = jwtUtil;
+//    }
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException
     {
-// Obter o cabeçalho de autorização
-        final String authorizationHeader = request.getHeader("Authorization");
+        String authHeader = request.getHeader("Authorization");
 
-        String username = null;
-        String jwt = null;
-
-        // Verificar se o cabeçalho de autorização está presente e começa com "Bearer "
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer "))
+        if (authHeader != null && authHeader.startsWith("Bearer "))
         {
-            jwt = authorizationHeader.substring(7);  // Extrai o token JWT
-            username = jwtUtil.extractUsername(jwt);  // Extraí o username do JWT
+            String token = authHeader.substring(7);
+
+            // Verificar se o token existe na base de dados
+            userTokenRepository.findByAccessToken(token)
+                    .ifPresent(userToken ->
+                    {
+                        if (jwtUtil.validateToken(token, userToken.getUser().getName()))
+                        {
+                            List<GrantedAuthority> authorities = jwtUtil.extractRoles(token).stream()
+                                    .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+                                    .collect(Collectors.toList());
+
+                            UsernamePasswordAuthenticationToken authentication
+                                    = new UsernamePasswordAuthenticationToken(userToken.getUser().getName(), null, authorities);
+                            SecurityContextHolder.getContext().setAuthentication(authentication);
+                        }
+                    });
         }
 
-        // Verificar se o username é válido e se a autenticação não foi configurada ainda
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null)
-        {
-            // Carregar os detalhes do usuário usando o UserDetailsService
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-
-            // Validar o token JWT
-            if (jwtUtil.validateToken(jwt, username))
-            {
-                // Criar um objeto de autenticação com os detalhes do usuário e as autoridades
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                        userDetails, null, userDetails.getAuthorities());
-
-                // Adicionar detalhes adicionais à autenticação
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
-                // Definir o contexto de autenticação
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            }
-        }
-
-        // Prosseguir com o filtro
         chain.doFilter(request, response);
     }
 }

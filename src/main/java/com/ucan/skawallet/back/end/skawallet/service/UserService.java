@@ -4,8 +4,11 @@
  */
 package com.ucan.skawallet.back.end.skawallet.service;
 
+import com.ucan.skawallet.back.end.skawallet.model.UserToken;
 import com.ucan.skawallet.back.end.skawallet.repository.UserRepository;
 import com.ucan.skawallet.back.end.skawallet.model.Users;
+import com.ucan.skawallet.back.end.skawallet.repository.UserTokenRepository;
+import com.ucan.skawallet.back.end.skawallet.security.token.JwtUtil;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -25,8 +28,10 @@ public class UserService implements UserDetailsService
 
     @Autowired
     private final UserRepository userRepository;
+    private final UserTokenRepository userTokenRepository;
     private final static String USER_NOT_FOUND_MSG = "User With name %s not found";
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final JwtUtil jwtUtil;
 
     public List<Users> ListUsers()
     {
@@ -66,6 +71,67 @@ public class UserService implements UserDetailsService
     {
         // Lógica para buscar o usuário
         return userRepository.findByName(username);
+    }
+
+//    public Optional<Users> findByNameOrPhone(String identifier)
+//    {
+//        return userRepository.findByName(identifier)
+//                .or(() -> userRepository.findByPhone(identifier));
+//    }
+    public String authenticate(String identifier, String password)
+    {
+        // Buscar o usuário com base no identifier (nome ou telefone)
+        Users user = findUserByIdentifier(identifier);
+
+        // Validar a senha
+        validatePassword(password, user);
+
+        // Validar o tipo de usuário (UserType)
+        if (user.getType() == null)
+        {
+            throw new RuntimeException("Tipo de usuário não definido para o identificador fornecido");
+        }
+
+        // Gerar o token
+        String token = generateAndSaveToken(user);
+
+        return token;
+    }
+
+// Método para buscar usuário pelo identifier
+    public Users findUserByIdentifier(String identifier)
+    {
+        return userRepository.findByName(identifier)
+                .or(() -> userRepository.findByPhone(identifier))
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado para o identificador fornecido"));
+    }
+
+// Método para validar a senha
+    private void validatePassword(String rawPassword, Users user)
+    {
+        if (!passwordEncoder.matches(rawPassword, user.getPassword()))
+        {
+            throw new RuntimeException("Senha inválida");
+        }
+    }
+
+// Método para gerar e salvar o token
+    private String generateAndSaveToken(Users user)
+    {
+        // Criar as roles com base no tipo de usuário
+        List<String> roles = List.of(user.getType().name());
+
+        // Gerar o token JWT
+        String token = jwtUtil.generateToken(user.getName(), roles);
+
+        // Salvar o token no banco de dados
+        UserToken userToken = new UserToken();
+        userToken.setUser(user);
+        userToken.setAccessToken(token);
+        userToken.setExpiresAt(LocalDateTime.now().plusHours(1)); // Expira em 1 hora
+        userTokenRepository.save(userToken);
+
+        return token;
     }
 
 }

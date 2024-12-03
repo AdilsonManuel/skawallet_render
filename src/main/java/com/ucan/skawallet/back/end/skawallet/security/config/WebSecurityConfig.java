@@ -35,10 +35,22 @@ public class WebSecurityConfig
         http
                 .csrf(csrf -> csrf.disable()) // Desabilitar CSRF, se necessário
                 .authorizeHttpRequests(authz -> authz
-                .requestMatchers("/api/*/registration/**").permitAll() // Permitir acesso a essas rotas
-                .requestMatchers("/api/*/banks/**").permitAll() // Permitir acesso a essas rotas
-                .requestMatchers("/api/*/bank-accounts/**").permitAll() // Permitir acesso a essas rotas
-                .requestMatchers("/api/*/payments/**").permitAll() // Permitir acesso a essas rotas
+                .requestMatchers("/api/*/auth/login/**", "/api/*/auth/*/**", "/api/*/**", "/api/*/registration/**").permitAll() // Permite login e registro
+                .requestMatchers("/api/*/users/**").hasRole("ADMIN")// Permite login e registro
+                .requestMatchers("/api/*/users/**").hasRole("USER")// Permite login e registro
+                .requestMatchers("/api/*/users/**").authenticated()
+                .requestMatchers("/api/*/banks/**").hasRole("ADMIN")
+                .requestMatchers("/api/*/banks/**").hasRole("USER")
+                .requestMatchers("/api/*/banks/**").authenticated() // Apenas usuários autenticados
+                .requestMatchers("/api/*/bank-accounts/**").hasRole("ADMIN")
+                .requestMatchers("/api/*/bank-accounts/**").hasRole("USER")
+                .requestMatchers("/api/*/bank-accounts/**").authenticated()
+                .requestMatchers("/api/*/accounts/**").hasRole("ADMIN")
+                .requestMatchers("/api/*/accounts/**").hasRole("USER")
+                .requestMatchers("/api/*/accounts/**").authenticated()
+                .requestMatchers("/api/*/payments/**").hasRole("ADMIN")
+                .requestMatchers("/api/*/payments/**").hasAnyRole("USER")
+                .requestMatchers("/api/*/payments/**").authenticated()
                 .requestMatchers("https://skawallet-backend-api.onrender.com").permitAll() // Permitir acesso a essas rotas
                 .anyRequest().authenticated() // Exige autenticação para qualquer outra requisição
                 )
@@ -54,8 +66,8 @@ public class WebSecurityConfig
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Para segurança sem estado (Stateless)
                 )
                 .oauth2Login(oauth2 -> oauth2
-                .loginPage("/login") // Página de login personalizada (se necessário)
                 .defaultSuccessUrl("/home", true) // Redirecionamento após sucesso no login
+                //                .failureUrl("/login?error=true") // Redirecionar em caso de erro
                 .permitAll() // Permite acesso ao login via OAuth2 sem autenticação
                 )
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class); // Adiciona o filtro JWT antes do filtro de autenticação padrão

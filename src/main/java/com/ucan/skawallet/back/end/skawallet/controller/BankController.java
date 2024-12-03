@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +35,8 @@ public class BankController
     @Autowired
     private BankService bankService;
 
+    // Apenas usuários com role ADMIN podem acessar
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/")
     public ResponseEntity<List<Bank>> getAllBanks()
     {
@@ -41,6 +44,8 @@ public class BankController
         return ResponseEntity.ok(banks);
     }
 
+    // Apenas usuários com role ADMIN ou USER podem acessar
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping("/{pk_banks}")
     public ResponseEntity<Bank> getBankByCode(@PathVariable String pk_banks)
     {
@@ -55,6 +60,8 @@ public class BankController
         }
     }
 
+    // Apenas usuários com role ADMIN podem acessar
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/")
     public ResponseEntity<Bank> createBank(@RequestBody Bank bank)
     {
@@ -62,6 +69,8 @@ public class BankController
         return ResponseEntity.status(201).body(createdBank);
     }
 
+    // Apenas usuários com role ADMIN podem acessar
+    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/{pk_banks}")
     public ResponseEntity<Bank> updateBankPartially(@PathVariable Long pk_banks, @RequestBody Map<String, Object> updates)
     {
@@ -80,18 +89,20 @@ public class BankController
         }
     }
 
+    // Apenas usuários com role ADMIN podem acessar
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{pk_banks}")
     public ResponseEntity<?> deleteBank(@PathVariable Long pk_banks)
     {
-        Optional<Bank> bank = bankService.getUserById(pk_banks);
+        Optional<Bank> bank = bankService.getBankById(pk_banks);
         if (bank.isPresent())
         {
             bankService.deleteBank(pk_banks);
-            return new ResponseEntity<>("User deleted successfully", HttpStatus.OK);
+            return new ResponseEntity<>("Bank deleted successfully", HttpStatus.OK);
         }
         else
         {
-            return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Bank not found", HttpStatus.NOT_FOUND);
         }
     }
 }

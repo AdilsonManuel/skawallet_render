@@ -12,6 +12,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Pattern;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
@@ -39,6 +40,10 @@ public class Users implements UserDetails
 
     @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(nullable = false, unique = true)
+    @Pattern(regexp = "\\+?[0-9]{1,15}", message = "O número de telefone deve ter no máximo 15 dígitos e pode começar com '+'.")
+    private String phone;
 
     @Column(nullable = false)
     private String password;
