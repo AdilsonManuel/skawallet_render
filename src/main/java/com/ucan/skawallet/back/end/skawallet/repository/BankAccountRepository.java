@@ -1,6 +1,6 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/SpringFramework/Repository.java to edit this template
  */
 package com.ucan.skawallet.back.end.skawallet.repository;
 
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository;
 public interface BankAccountRepository extends JpaRepository<BankAccount, Long>
 {
 
-    Optional<BankAccount> findByAccountNumber(String accountNumber);  // Encontrar conta bancária pelo número da conta
+    Optional<BankAccount> findByAccountNumber(String accountNumber);
 
     List<BankAccount> findByUser(Users user);  // Encontrar contas bancárias de um usuário específico
 }

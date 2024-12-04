@@ -35,3 +35,8 @@ spring:
 
 jwt:
   expiration: 3600000 # Expiração do JWT (1 hora)
+  
+  payment:
+  api:
+    base-url: https://api.paymentprovider.com
+    key: YOUR_API_KEY

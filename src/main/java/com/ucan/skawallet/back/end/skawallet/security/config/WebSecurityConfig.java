@@ -7,6 +7,7 @@ package com.ucan.skawallet.back.end.skawallet.security.config;
 import com.ucan.skawallet.back.end.skawallet.security.token.JwtRequestFilter;
 import com.ucan.skawallet.back.end.skawallet.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,6 +19,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.client.RestTemplate;
 
 @Configuration
 @AllArgsConstructor
@@ -49,8 +51,14 @@ public class WebSecurityConfig
                 .requestMatchers("/api/*/accounts/**").hasRole("USER")
                 .requestMatchers("/api/*/accounts/**").authenticated()
                 .requestMatchers("/api/*/payments/**").hasRole("ADMIN")
-                .requestMatchers("/api/*/payments/**").hasAnyRole("USER")
+                .requestMatchers("/api/*/payments/**").hasRole("USER")
                 .requestMatchers("/api/*/payments/**").authenticated()
+                .requestMatchers("/api/*/transactions/**").hasRole("ADMIN")
+                .requestMatchers("/api/*/transactions/**").hasRole("USER")
+                .requestMatchers("/api/*/transactions/**").authenticated()
+                .requestMatchers("/api/*/transaction-history**").hasRole("ADMIN")
+                .requestMatchers("/api/*/transaction-history/**").hasRole("USER")
+                .requestMatchers("/api/*/transaction-history/**").authenticated()
                 .requestMatchers("https://skawallet-backend-api.onrender.com").permitAll() // Permitir acesso a essas rotas
                 .anyRequest().authenticated() // Exige autenticação para qualquer outra requisição
                 )
@@ -92,6 +100,12 @@ public class WebSecurityConfig
         daoAuthenticationProvider.setPasswordEncoder(bCryptPasswordEncoder); // Configura o encoder de senha
         daoAuthenticationProvider.setUserDetailsService(userService); // Configura o UserDetailsService
         return daoAuthenticationProvider;
+    }
+
+    @Bean
+    public RestTemplate restTemplate(RestTemplateBuilder builder)
+    {
+        return builder.build();
     }
 
 }

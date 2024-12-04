@@ -19,7 +19,6 @@ import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
 
 /**
  *
@@ -28,39 +27,36 @@ import org.hibernate.annotations.CreationTimestamp;
 @Entity
 @Table(name = "transactions")
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class Transaction
 {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer pk_transactions;
+    @Column(name = "pk_transactions")
+    private Long pk_transactions;
 
     @Column(nullable = false)
-    private BigDecimal amount;  // Quantia da transação (ex: 100.50)
+    private BigDecimal amount;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private TransactionType transactionType;  // Tipo da transação (DEPOSIT, WITHDRAWAL, TRANSFER)
+    private TransactionType transactionType;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private TransactionStatus status;  // Status da transação (PENDING, COMPLETED, FAILED)
+    private TransactionStatus status;
 
-    @ManyToOne
-    @JoinColumn(name = "fk_users")
-    private Users user;  // Usuário que está realizando a transação
+    @Column(nullable = false)
+    private LocalDateTime created_at = LocalDateTime.now();
 
     @ManyToOne
     @JoinColumn(name = "fk_source_account")
-    private BankAccount sourceAccount;  // Conta de origem da transação (de onde o dinheiro sai)
+    private BankAccount sourceAccount;
 
     @ManyToOne
     @JoinColumn(name = "fk_destination_account")
-    private BankAccount destinationAccount;  // Conta de destino da transação (para onde o dinheiro vai)
+    private BankAccount destinationAccount;
 
-    @Column(nullable = false, updatable = false)
-    @CreationTimestamp
-    private LocalDateTime createdAt;  // Data de criação da transação
 }

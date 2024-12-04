@@ -8,9 +8,9 @@ package com.ucan.skawallet.back.end.skawallet.model;
  *
  * @author azm
  */
-public enum TransactionType
+public enum EventType
 {
-    DEPOSIT,
-    WITHDRAWAL,
-    TRANSFER
+    CREATED,
+    UPDATED,
+    DELETED
 }

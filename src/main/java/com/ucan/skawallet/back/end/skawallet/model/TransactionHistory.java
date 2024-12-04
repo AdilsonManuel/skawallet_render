@@ -14,7 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import java.math.BigDecimal;
+import java.sql.Timestamp;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,33 +24,26 @@ import lombok.NoArgsConstructor;
  * @author azm
  */
 @Entity
-@Table(name = "bank_accounts")
+@Table(name = "transaction_history")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class BankAccount
+@AllArgsConstructor
+public class TransactionHistory
 {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long pk_bank_accounts;
-
-    @Column(nullable = false, unique = true)
-    private String accountNumber;
-
-    @Column(nullable = false)
-    private BigDecimal balance = BigDecimal.ZERO;
+    @Column(name = "pk_transaction_history")
+    private Long pk_transaction_history;
 
     @ManyToOne
-    @JoinColumn(name = "fk_users", nullable = false)
-    private Users user;
-
-    @ManyToOne
-    @JoinColumn(name = "fk_banks", nullable = false)
-    private Bank bank;
+    @JoinColumn(name = "fk_transactions", nullable = false)
+    private Transaction transaction;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private UserTypeAccount userTypeAccount;
+    @Column(name = "event_type", nullable = false)
+    private EventType eventType;
 
+    @Column(name = "timestamp", nullable = false, updatable = false)
+    private Timestamp timestamp;
 }

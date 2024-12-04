@@ -4,13 +4,9 @@
  */
 package com.ucan.skawallet.back.end.skawallet.controller;
 
-import com.ucan.skawallet.back.end.skawallet.dto.LoginRequestDTO;
 import com.ucan.skawallet.back.end.skawallet.model.Users;
 import com.ucan.skawallet.back.end.skawallet.service.UserService;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -8,9 +8,8 @@ package com.ucan.skawallet.back.end.skawallet.model;
  *
  * @author azm
  */
-public enum TransactionType
+public enum UserTypeAccount
 {
-    DEPOSIT,
-    WITHDRAWAL,
-    TRANSFER
+    STANDARD,
+    PREMIUM
 }
