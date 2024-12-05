@@ -15,10 +15,7 @@ import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import lombok.Data;
 
-/**
- *
- * @author azm
- */
+
 @Entity
 @Table(name = "user_tokens")
 @Data

@@ -36,7 +36,8 @@ spring:
 jwt:
   expiration: 3600000 # Expiração do JWT (1 hora)
   
-  payment:
+paddle:
   api:
-    base-url: https://api.paymentprovider.com
-    key: YOUR_API_KEY
+    base-url: https://vendors.paddle.com/api/2.0
+    vendor-id: 210608
+    api-key: c60a0a7f5ab2832a043a91244506815660b06e58809fbe389f

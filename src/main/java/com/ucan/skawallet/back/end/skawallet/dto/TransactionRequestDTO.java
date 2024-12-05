@@ -11,10 +11,7 @@ import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import lombok.Data;
 
-/**
- *
- * @author azm
- */
+
 @Data
 public class TransactionRequestDTO
 {

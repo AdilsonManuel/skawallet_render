@@ -4,13 +4,15 @@
  */
 package com.ucan.skawallet.back.end.skawallet.dto;
 
+import java.util.Map;
 import lombok.Data;
 
 
 @Data
-public class LoginRequestDTO 
+public class PaymentResponseDTO
 {
 
-    private String identifier; // Nome ou telefone
-    private String password;
+    private boolean success;
+    private String message;
+    private Map<String, Object> response;
 }

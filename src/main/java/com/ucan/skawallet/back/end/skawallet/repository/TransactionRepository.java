@@ -8,10 +8,7 @@ import com.ucan.skawallet.back.end.skawallet.model.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-/**
- *
- * @author azm
- */
+
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long>
 {

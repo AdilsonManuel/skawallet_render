@@ -9,10 +9,6 @@ import java.math.BigDecimal;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- *
- * @author azm
- */
 @Data
 @NoArgsConstructor
 public class BankAccountDTO

@@ -4,10 +4,7 @@
  */
 package com.ucan.skawallet.back.end.skawallet.model;
 
-/**
- *
- * @author azm
- */
+
 public enum TransactionStatus
 {
     PENDING,

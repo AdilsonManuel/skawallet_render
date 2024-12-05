@@ -23,10 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
-/**
- *
- * @author azm
- */
+
 @RestController
 @RequestMapping("/api/v1/banks")
 public class BankController
