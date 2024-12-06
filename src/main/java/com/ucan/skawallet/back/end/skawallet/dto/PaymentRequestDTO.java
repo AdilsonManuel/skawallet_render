@@ -10,7 +10,6 @@ import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import lombok.Data;
 
-
 @Data
 public class PaymentRequestDTO
 {
@@ -23,7 +22,6 @@ public class PaymentRequestDTO
     private String currency;
 
     @NotBlank(message = "O destinatário é obrigatório")
-    private String customerEmail;
-    
-    private String productId;
+    private String paymentMethodId;  // Método de pagamento (Ex: "pm_card_visa")
+    private String description;      // Descrição da transação
 }

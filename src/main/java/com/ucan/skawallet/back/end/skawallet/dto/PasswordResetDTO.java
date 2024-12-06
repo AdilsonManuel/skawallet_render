@@ -4,15 +4,20 @@
  */
 package com.ucan.skawallet.back.end.skawallet.dto;
 
-import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
+/**
+ *
+ * @author azm
+ */
 @Data
-@AllArgsConstructor
-public class PaymentResponseDTO
+public class PasswordResetDTO
 {
 
-    private String status;
-    private String transactionId;
-    private String message;
+    @NotBlank(message = "Token é obrigatório")
+    private String token;
+
+    @NotBlank(message = "Nova senha é obrigatória")
+    private String newPassword;
 }

@@ -4,15 +4,21 @@
  */
 package com.ucan.skawallet.back.end.skawallet.dto;
 
-import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
+/**
+ *
+ * @author azm
+ */
 @Data
-@AllArgsConstructor
-public class PaymentResponseDTO
+public class PasswordResetRequestDTO
 {
 
-    private String status;
-    private String transactionId;
-    private String message;
+    @Email(message = "Email inválido")
+    @NotBlank(message = "O email é obrigatório")
+    private String email;
+    
+    
 }

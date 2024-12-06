@@ -8,13 +8,12 @@ import com.ucan.skawallet.back.end.skawallet.dto.PaymentRequestDTO;
 import com.ucan.skawallet.back.end.skawallet.dto.PaymentResponseDTO;
 import java.math.BigDecimal;
 
-
 public interface PaymentProvider
 {
 
     PaymentResponseDTO initiatePayment(PaymentRequestDTO request);
 
-    PaymentResponseDTO checkPaymentStatus(String orderId);
+    PaymentResponseDTO checkPaymentStatus(String paymentIntentId);
 
-    public String createProduct(String productName, String productDescription, BigDecimal price, String currency, String billingType, String frequency);
+    String createProduct(String productName, String productDescription, BigDecimal price, String currency, String interval);
 }

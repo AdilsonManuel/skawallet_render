@@ -10,6 +10,7 @@ import com.ucan.skawallet.back.end.skawallet.model.EventType;
 import com.ucan.skawallet.back.end.skawallet.model.Transaction;
 import com.ucan.skawallet.back.end.skawallet.model.TransactionHistory;
 import com.ucan.skawallet.back.end.skawallet.model.TransactionStatus;
+import com.ucan.skawallet.back.end.skawallet.model.TransactionType;
 import com.ucan.skawallet.back.end.skawallet.model.UserTypeAccount;
 import com.ucan.skawallet.back.end.skawallet.repository.BankAccountRepository;
 import com.ucan.skawallet.back.end.skawallet.repository.TransactionHistoryRepository;
@@ -18,14 +19,15 @@ import com.ucan.skawallet.back.end.skawallet.security.AuthenticationFacade;
 import java.math.BigDecimal;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class TransactionService
 {
 
@@ -149,4 +151,5 @@ public class TransactionService
             throw new RuntimeException("Permissão negada");
         }
     }
+
 }

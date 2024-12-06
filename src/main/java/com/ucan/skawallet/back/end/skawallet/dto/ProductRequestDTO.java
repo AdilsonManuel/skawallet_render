@@ -10,7 +10,6 @@ import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import lombok.Data;
 
-
 @Data
 public class ProductRequestDTO
 {
@@ -28,9 +27,5 @@ public class ProductRequestDTO
     @NotBlank(message = "A moeda é obrigatória")
     private String currency;
 
-    @NotBlank(message = "O tipo de cobrança é obrigatório")
-    private String billingType;  // "one-time" ou "recurring"
-
-    @NotBlank(message = "A frequência da cobrança é obrigatória")
-    private String frequency;  // "monthly", "yearly"
+    private String frequency; // Ex: "month", "year"
 }
