@@ -12,11 +12,33 @@
 			"item": [
 				{
 					"name": "List Users",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJzdWIiOiJMdWNpbmRhIFp1bWJhIiwiaWF0IjoxNzMzNDE5MjM2LCJleHAiOjE3MzM0MjI4MzZ9.VJ-jyO4kw9towUgZ2Jv-_K4AyEcjt9nP2SWGv-oFu8w",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/auth/register/users/",
+							"raw": "http://localhost:8080/api/v1/users/",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -25,8 +47,6 @@
 							"path": [
 								"api",
 								"v1",
-								"auth",
-								"register",
 								"users",
 								""
 							]
@@ -38,10 +58,20 @@
 				{
 					"name": "List By PK",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sInN1YiI6IkxpZGlhbnkgWnVtYmEiLCJpYXQiOjE3MzMxOTEyMzcsImV4cCI6MTczMzE5NDgzN30.PX3TRdQw8lJzkCV8laDIt2LJrOTtuhgdqtr0Vp3QzRM",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/auth/register/users/9",
+							"raw": "http://localhost:8080/api/v1/users/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -50,10 +80,8 @@
 							"path": [
 								"api",
 								"v1",
-								"auth",
-								"register",
 								"users",
-								"9"
+								"2"
 							]
 						},
 						"description": "Endpoint para recuperar detalhes do perfil do usuário autenticado.\n\n- **URL:** `GET /api/v1/users/me`\n    \n- **Método:** GET\n    \n- **Headers:**\n    \n    - `Authorization: Bearer {token}`\n        \n- **Descrição:** Retorna informações do perfil do usuário autenticado.\n    \n    {  \n    \"id\": 1,  \n    \"name\": \"John Doe\",  \n    \"email\": \"[john.doe@example.com](https://mailto:john.doe@example.com)\",  \n    \"type\": \"USER\",  \n    \"createdAt\": \"2024-11-18T12:00:00\"  \n    }"
@@ -67,7 +95,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Miguel João\",\n  \"email\": \"miguelJ.qz@example.com\",\n  \"password\": \"password123\",\n  \"type\": \"ADMIN\"\n}\n",
+							"raw": "{\n  \"name\": \"admin12\",\n  \"email\": \"ad122u@example.com\",\n  \"password\": \"pasword9123\",\n  \"phone\":\"+244945369825\",\n  \"type\": \"ADMIN\"\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -75,7 +103,39 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/auth/register/users/",
+							"raw": "http://localhost:8080/api/v1/users/registration",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"registration"
+							]
+						},
+						"description": "#### **1\\. Registro de Usuário**\n\nEndpoint para criar um novo usuário na plataforma.\n\n- **URL:** `POST /api/v1/auth/register`\n    \n- **Método:** POST\n    \n- **Descrição:** Registra um novo usuário com suas informações básicas."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Users",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"phone\":\"+244924589123\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/auth/register/users/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -87,39 +147,7 @@
 								"auth",
 								"register",
 								"users",
-								""
-							]
-						},
-						"description": "#### **1\\. Registro de Usuário**\n\nEndpoint para criar um novo usuário na plataforma.\n\n- **URL:** `POST /api/v1/auth/register`\n    \n- **Método:** POST\n    \n- **Descrição:** Registra um novo usuário com suas informações básicas."
-					},
-					"response": []
-				},
-				{
-					"name": "Update Users",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"name\": \"Pedro Miguel\",\n  \"email\": \"pedro.admin@example.com\",\n  \"password\": \"password123\",\n  \"type\": \"USER\"\n}\n",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/registration/2",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"registration",
-								"2"
+								"1"
 							]
 						},
 						"description": "Endpoint para atualizar os dados do usuário.\n\n- **URL:** `PUT /api/v1/users/{id}`\n    \n- **Método:** PUT\n    \n- **Headers:**\n    \n    - `Authorization: Bearer {token}`\n        \n- **Descrição:** Permite ao usuário atualizar seu perfil, como nome e senha."
@@ -156,52 +184,13 @@
 			"name": "Token",
 			"item": [
 				{
-					"name": "Registering-X",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "username",
-									"value": "Leandro Zumba",
-									"type": "text"
-								},
-								{
-									"key": "password",
-									"value": "password123",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/registration/login/token",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"registration",
-								"login",
-								"token"
-							]
-						},
-						"description": "Endpoint para autenticação do usuário e obtenção de token JWT.\n\n- **URL:** `POST /api/v1/auth/login`\n    \n- **Método:** POST\n    \n    - **Descrição:** Autentica um usuário registrado e retorna um token JWT.\n        \n        {  \n        \"email\": \"[john.doe@example.com](https://mailto:john.doe@example.com)\",  \n        \"password\": \"123456\"  \n        }"
-					},
-					"response": []
-				},
-				{
 					"name": "Generate Token",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Leandro Zumba\",\n  \"password\": \"password123\"\n}\n",
+							"raw": "{\n    \"identifier\": \"admin12\",\n    \"password\": \"pasword9123\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -209,7 +198,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/auth/register/users/token",
+							"raw": "http://localhost:8080/api/v1/auth/login",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -219,9 +208,39 @@
 								"api",
 								"v1",
 								"auth",
-								"register",
-								"users",
-								"token"
+								"login"
+							]
+						},
+						"description": "Endpoint para autenticação do usuário e obtenção de token JWT.\n\n- **URL:** `POST /api/v1/auth/login`\n    \n- **Método:** POST\n    \n- **Descrição:** Autentica um usuário registrado e retorna um token JWT.\n    \n    {  \n    \"email\": \"[john.doe@example.com](https://mailto:john.doe@example.com)\",  \n    \"password\": \"123456\"  \n    }"
+					},
+					"response": []
+				},
+				{
+					"name": "Renovar Token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"identifier\": \"Lidiany Zumba\",\n    \"password\": \"pasword9123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/auth/refresh-token",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"refresh-token"
 							]
 						},
 						"description": "Endpoint para autenticação do usuário e obtenção de token JWT.\n\n- **URL:** `POST /api/v1/auth/login`\n    \n- **Método:** POST\n    \n- **Descrição:** Autentica um usuário registrado e retorna um token JWT.\n    \n    {  \n    \"email\": \"[john.doe@example.com](https://mailto:john.doe@example.com)\",  \n    \"password\": \"123456\"  \n    }"
@@ -233,38 +252,6 @@
 		{
 			"name": "OAUTH2",
 			"item": [
-				{
-					"name": "Login",
-					"request": {
-						"auth": {
-							"type": "oauth2",
-							"oauth2": [
-								{
-									"key": "addTokenTo",
-									"value": "header",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/api/v1/registration/login",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"registration",
-								"login"
-							]
-						}
-					},
-					"response": []
-				},
 				{
 					"name": "Login2",
 					"request": {
@@ -292,143 +279,35 @@
 			"name": "Banks",
 			"item": [
 				{
-					"name": "Bank Account",
-					"item": [
-						{
-							"name": "Creating Account",
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"accountNumber\": \"5017894561\",\n    \"balance\": 10000.00,\n    \"pk_users\": 5,\n    \"pk_banks\": 5\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:8080/api/v1/bank-accounts/",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"api",
-										"v1",
-										"bank-accounts",
-										""
-									]
+					"name": "Add Banks",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Banco de Angola\",\n  \"code\": \"011\",\n  \"createdDate\": \"2024-08-29\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
 								}
-							},
-							"response": []
+							}
 						},
-						{
-							"name": "List Bank Accounts",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "http://localhost:8080/api/v1/bank-accounts/",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"api",
-										"v1",
-										"bank-accounts",
-										""
-									]
-								}
-							},
-							"response": []
+						"url": {
+							"raw": "http://localhost:8080/api/v1/banks/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"banks",
+								""
+							]
 						}
-					]
-				},
-				{
-					"name": "Transactions",
-					"item": [
-						{
-							"name": "List All Transaction",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "http://localhost:8080/api/v1/payments/",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"api",
-										"v1",
-										"payments",
-										""
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Check Balance",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "http://localhost:8080/api/v1/payments/balance/99999999",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"api",
-										"v1",
-										"payments",
-										"balance",
-										"99999999"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Execute Transaction",
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n  \"sourceAccount\": \"10101010\",\n  \"destinationAccount\": \"99999999\",\n  \"amount\": 200.00,\n  \"transactionType\": \"WITHDRAWAL\",\n  \"status\": \"COMPLETED\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:8080/api/v1/payments/transaction",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"api",
-										"v1",
-										"payments",
-										"transaction"
-									]
-								}
-							},
-							"response": []
-						}
-					]
+					},
+					"response": []
 				},
 				{
 					"name": "List Banks",
@@ -447,34 +326,23 @@
 								"v1",
 								"banks",
 								""
-							],
-							"query": [
-								{
-									"key": "type",
-									"value": "ADMIN",
-									"disabled": true
-								}
 							]
 						}
 					},
 					"response": []
-				},
+				}
+			]
+		},
+		{
+			"name": "Bank Accounts",
+			"item": [
 				{
-					"name": "Add Banks",
+					"name": "List Banks Account",
 					"request": {
-						"method": "POST",
+						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"Banco de Fomento e Crédito\",\n    \"code\": \"118\",\n    \"createdDate\": \"2002-01-08\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/banks/",
+							"raw": "http://localhost:8080/api/v1/bank-accounts/",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -483,7 +351,7 @@
 							"path": [
 								"api",
 								"v1",
-								"banks",
+								"bank-accounts",
 								""
 							]
 						}
@@ -491,21 +359,12 @@
 					"response": []
 				},
 				{
-					"name": "Update Banks",
+					"name": "List By Banks Account",
 					"request": {
-						"method": "PATCH",
+						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"Banco de Millennium Atlântico\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/banks/1",
+							"raw": "http://localhost:8080/api/v1/bank-accounts/10101010",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -514,8 +373,341 @@
 							"path": [
 								"api",
 								"v1",
-								"banks",
+								"bank-accounts",
+								"10101010"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Banks Account By User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/bank-accounts/user/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"bank-accounts",
+								"user",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Creating Bank Account",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"accountNumber\":\"159753\",\n    \"balance\":183000.00,\n    \"pk_users\": 3,\n    \"pk_banks\": 4\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/bank-accounts/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"bank-accounts",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Transactions",
+			"item": [
+				{
+					"name": "Check Balance",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/transactions/balance/159753",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"transactions",
+								"balance",
+								"159753"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Transfer Transaction",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"sourceAccount\": \"159753\",\n    \"destinationAccount\": \"3014567890\",\n    \"amount\": 293100.00,\n    \"transactionType\": \"TRANSFER\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/transactions/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"transactions",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deposit Transaction",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sInN1YiI6IkxpZGlhbnkgWnVtYmEiLCJpYXQiOjE3MzMyMjk2MjgsImV4cCI6MTczMzIzMzIyOH0.c41A7-q_249mylrGVyVDDWhJtsgZ8-RlV270ZBfI2JA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"sourceAccount\": \"159753\",\n    \"amount\": 1000000.00,\n    \"transactionType\": \"DEPOSIT\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/transactions/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"transactions",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Withdrawal Transaction",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"sourceAccount\": \"159753\",\n    \"amount\": 10000.00,\n    \"transactionType\": \"WITHDRAWAL\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/transactions/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"transactions",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Transaction History",
+			"item": [
+				{
+					"name": "List All Transaction History",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/transaction-history/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"transaction-history",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Transaction History By PK",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/transaction-history/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"transaction-history",
 								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Payments",
+			"item": [
+				{
+					"name": "Iniciar Pagamento",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"amount\": 150000,\n  \"currency\": \"usd\",\n  \"paymentMethodId\": \"pm_card_visa\",\n  \"description\": \"Test payment\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/payments/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"payments",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Consultar Status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/payments/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"payments",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJzdWIiOiJMdWNpbmRhIFp1bWJhIiwiaWF0IjoxNzMzNDAxNjIxLCJleHAiOjE3MzM0MDUyMjF9.MK8KIBDj5Y7WgU7hCWJ2R4HLapUTU4M8QW-YkyiMdR4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"productName\": \"Awesome Product\",\n  \"productDescription\": \"This is a description of the awesome product.\",\n  \"price\": 29.99,\n  \"currency\": \"USD\",\n  \"billingType\": \"recurring\",\n  \"frequency\": \"monthly\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/payments/products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"payments",
+								"products"
 							]
 						}
 					},
