@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @RestController
 @RequestMapping("/api/*/bank-accounts")
 @RequiredArgsConstructor
@@ -69,7 +68,7 @@ public class BankAccountController
     public ResponseEntity<BankAccountDTO> createBankAccount(@RequestBody BankAccountDTO bankAccountDTO)
     {
         // Verifica se o usuário existe
-        Users user = userRepository.findById(bankAccountDTO.getPk_banks())
+        Users user = userRepository.findById(bankAccountDTO.getPk_users())
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
         // Verifica se o banco existe
