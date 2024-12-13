@@ -11,11 +11,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-
 @Repository
 public interface TransactionHistoryRepository extends JpaRepository<TransactionHistory, Long>
 {
 
     @Query(value = "SELECT * FROM transaction_history WHERE pk_transaction_history = ?", nativeQuery = true)
     List<TransactionHistory> findByTransactionHistory(@Param("pk_transaction_history") Long pk_transaction_history);
+
+    @Query("SELECT th FROM TransactionHistory th WHERE th.transaction = :transactionId")
+    public List<TransactionHistory> findByTransactionPkTransactions(String transactionId);
+
 }

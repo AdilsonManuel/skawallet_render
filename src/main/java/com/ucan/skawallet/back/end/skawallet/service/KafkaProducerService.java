@@ -22,4 +22,16 @@ public class KafkaProducerService
         log.info("Enviando mensagem para o Kafka: {}", message);
         kafkaTemplate.send("transaction-events", message);
     }
+
+    public void sendTransactionToHistory(String transactionMessage)
+    {
+        log.info("Publicando histórico de transação no Kafka: {}", transactionMessage);
+        kafkaTemplate.send("transaction-history", transactionMessage);
+    }
+
+    public void sendTransactionError(String errorMessage)
+    {
+        log.info("Publicando erro de transação no Kafka: {}", errorMessage);
+        kafkaTemplate.send("transaction-errors", errorMessage);
+    }
 }

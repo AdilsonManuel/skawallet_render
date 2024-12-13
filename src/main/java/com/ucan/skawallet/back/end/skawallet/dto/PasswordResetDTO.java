@@ -7,10 +7,6 @@ package com.ucan.skawallet.back.end.skawallet.dto;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
-/**
- *
- * @author azm
- */
 @Data
 public class PasswordResetDTO
 {

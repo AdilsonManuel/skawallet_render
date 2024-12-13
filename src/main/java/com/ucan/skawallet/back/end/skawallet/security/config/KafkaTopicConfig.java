@@ -33,4 +33,16 @@ public class KafkaTopicConfig
     {
         return new NewTopic("transaction-events", 1, (short) 1);
     }
+
+    @Bean
+    public NewTopic transactionHistoryTopic()
+    {
+        return new NewTopic("transaction-history", 3, (short) 1);
+    }
+
+    @Bean
+    public NewTopic errorTopic()
+    {
+        return new NewTopic("transaction-errors", 1, (short) 1);
+    }
 }

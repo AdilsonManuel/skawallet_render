@@ -10,7 +10,6 @@ import com.ucan.skawallet.back.end.skawallet.model.EventType;
 import com.ucan.skawallet.back.end.skawallet.model.Transaction;
 import com.ucan.skawallet.back.end.skawallet.model.TransactionHistory;
 import com.ucan.skawallet.back.end.skawallet.model.TransactionStatus;
-import com.ucan.skawallet.back.end.skawallet.model.TransactionType;
 import com.ucan.skawallet.back.end.skawallet.model.UserTypeAccount;
 import com.ucan.skawallet.back.end.skawallet.repository.BankAccountRepository;
 import com.ucan.skawallet.back.end.skawallet.repository.TransactionHistoryRepository;
@@ -160,6 +159,25 @@ public class TransactionService
         // Publicar evento no Kafka
         String message = String.format("Transação registrada: %s", transaction.toString());
         kafkaProducerService.sendTransactionEvent(message);
+    }
+
+    public void processTransaction(Transaction transaction)
+    {
+        try
+        {
+            // Criar mensagem com dados da transação
+            String message = String.format("Transação registrada: ID=%s, Valor=%s, Status=%s",
+                                           transaction.getPk_transactions(), transaction.getAmount(), transaction.getStatus());
+
+            // Enviar para o Kafka
+            kafkaProducerService.sendTransactionEvent(message);
+            log.info("Evento de transação enviado ao Kafka");
+
+        }
+        catch (Exception e)
+        {
+            log.error("Erro ao processar transação: {}", e.getMessage());
+        }
     }
 
 }
