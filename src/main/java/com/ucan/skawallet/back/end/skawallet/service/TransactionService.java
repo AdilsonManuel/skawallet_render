@@ -37,6 +37,7 @@ public class TransactionService
     private final TransactionRepository transactionRepository;
     private final TransactionHistoryRepository transactionHistoryRepository; // Repositório para o histórico
     private final AuthenticationFacade authenticationFacade;
+    private final KafkaProducerService kafkaProducerService;
 
     public BigDecimal getBalance(String accountNumber)
     {
@@ -150,6 +151,15 @@ public class TransactionService
         {
             throw new RuntimeException("Permissão negada");
         }
+    }
+
+    public void registerTransaction(Transaction transaction)
+    {
+        // Processar transação (lógica existente)
+
+        // Publicar evento no Kafka
+        String message = String.format("Transação registrada: %s", transaction.toString());
+        kafkaProducerService.sendTransactionEvent(message);
     }
 
 }
