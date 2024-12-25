@@ -4,6 +4,7 @@
  */
 package com.ucan.skawallet.back.end.skawallet.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ucan.skawallet.back.end.skawallet.model.TransactionHistory;
 import com.ucan.skawallet.back.end.skawallet.repository.TransactionHistoryRepository;
@@ -29,13 +30,6 @@ public class KafkaConsumerService
         // Processar e registrar a mensagem no banco de dados, se necessário
     }
 
-//    @KafkaListener(topics = "transaction-history", groupId = "transaction-group")
-//    public void consumeTransactionHistory(String message)
-//    {
-//        log.info("Mensagem consumida do tópico 'transaction-history': {}", message);
-//        // Processar e armazenar no banco de dados, se necessário
-//    }
-
     @KafkaListener(topics = "transaction-errors", groupId = "transaction-group")
     public void consumeTransactionErrors(String errorMessage)
     {
@@ -54,15 +48,14 @@ public class KafkaConsumerService
             ObjectMapper objectMapper = new ObjectMapper();
             TransactionHistory transactionHistory = objectMapper.readValue(message, TransactionHistory.class);
 
-            // Persistir no banco de dados
+            // Persistir na base de dados
             transactionHistoryRepository.save(transactionHistory);
             log.info("Histórico de transação salvo no banco de dados: {}", transactionHistory);
 
         }
-        catch (Exception e)
+        catch (JsonProcessingException e)
         {
             log.error("Erro ao processar mensagem consumida: {}", e.getMessage());
         }
     }
 }
-    
