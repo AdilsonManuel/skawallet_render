@@ -38,27 +38,13 @@ public class WebSecurityConfig
                 .csrf(csrf -> csrf.disable()) // Desabilitar CSRF, se necessário
                 .authorizeHttpRequests(authz -> authz
                 .requestMatchers("/api/*/auth/login/**", "/api/*/auth/*/**", "/api/*/**", "/api/*/registration/**").permitAll() // Permite login e registro
-                .requestMatchers("/api/*/users/**").hasRole("ADMIN")// Permite login e registro
-                .requestMatchers("/api/*/users/**").hasRole("USER")// Permite login e registro
-                .requestMatchers("/api/*/users/**").authenticated()
-                .requestMatchers("/api/*/banks/**").hasRole("ADMIN")
-                .requestMatchers("/api/*/banks/**").hasRole("USER")
-                .requestMatchers("/api/*/banks/**").authenticated() // Apenas usuários autenticados
-                .requestMatchers("/api/*/bank-accounts/**").hasRole("ADMIN")
-                .requestMatchers("/api/*/bank-accounts/**").hasRole("USER")
-                .requestMatchers("/api/*/bank-accounts/**").authenticated()
-                .requestMatchers("/api/*/accounts/**").hasRole("ADMIN")
-                .requestMatchers("/api/*/accounts/**").hasRole("USER")
-                .requestMatchers("/api/*/accounts/**").authenticated()
-                .requestMatchers("/api/*/payments/**").hasRole("ADMIN")
-                .requestMatchers("/api/*/payments/**").hasRole("USER")
-                .requestMatchers("/api/*/payments/**").authenticated()
-                .requestMatchers("/api/*/transactions/**").hasRole("ADMIN")
-                .requestMatchers("/api/*/transactions/**").hasRole("USER")
-                .requestMatchers("/api/*/transactions/**").authenticated()
-                .requestMatchers("/api/*/transaction-history**").hasRole("ADMIN")
-                .requestMatchers("/api/*/transaction-history/**").hasRole("USER")
-                .requestMatchers("/api/*/transaction-history/**").authenticated()
+                .requestMatchers("/api/*/users/**").permitAll()// Permite login e registro
+                .requestMatchers("/api/*/banks/**").permitAll() // Apenas usuários autenticados
+                .requestMatchers("/api/*/bank-accounts/**").permitAll()
+                .requestMatchers("/api/*/accounts/**").permitAll()
+                .requestMatchers("/api/*/payments/**").permitAll()
+                .requestMatchers("/api/*/transactions/**").permitAll()
+                .requestMatchers("/api/*/transaction-history/**").permitAll()
                 .requestMatchers("https://skawallet-backend-api.onrender.com").permitAll() // Permitir acesso a essas rotas
                 .anyRequest().authenticated() // Exige autenticação para qualquer outra requisição
                 )
@@ -107,23 +93,5 @@ public class WebSecurityConfig
     {
         return builder.build();
     }
-//
-//    @Bean
-//    public JavaMailSender javaMailSender()
-//    {
-//        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-//        mailSender.setHost("smtp.gmail.com");
-//        mailSender.setPort(587);
-//        mailSender.setUsername("seu.email@gmail.com");
-//        mailSender.setPassword("sua_senha");
-//
-//        Properties props = mailSender.getJavaMailProperties();
-//        props.put("mail.transport.protocol", "smtp");
-//        props.put("mail.smtp.auth", "true");
-//        props.put("mail.smtp.starttls.enable", "true");
-//        props.put("mail.debug", "true");
-//
-//        return mailSender;
-//    }
 
 }
