@@ -36,7 +36,7 @@ public class TransactionService
     private final TransactionRepository transactionRepository;
     private final TransactionHistoryRepository transactionHistoryRepository; // Repositório para o histórico
     private final AuthenticationFacade authenticationFacade;
-    private final KafkaProducerService kafkaProducerService;
+//    private final KafkaProducerService kafkaProducerService;
 
     public BigDecimal getBalance(String accountNumber)
     {
@@ -152,32 +152,32 @@ public class TransactionService
         }
     }
 
-    public void registerTransaction(Transaction transaction)
-    {
-        // Processar transação (lógica existente)
-
-        // Publicar evento no Kafka
-        String message = String.format("Transação registrada: %s", transaction.toString());
-        kafkaProducerService.sendTransactionEvent(message);
-    }
-
-    public void processTransaction(Transaction transaction)
-    {
-        try
-        {
-            // Criar mensagem com dados da transação
-            String message = String.format("Transação registrada: ID=%s, Valor=%s, Status=%s",
-                                           transaction.getPk_transactions(), transaction.getAmount(), transaction.getStatus());
-
-            // Enviar para o Kafka
-            kafkaProducerService.sendTransactionEvent(message);
-            log.info("Evento de transação enviado ao Kafka");
-
-        }
-        catch (Exception e)
-        {
-            log.error("Erro ao processar transação: {}", e.getMessage());
-        }
-    }
+//    public void registerTransaction(Transaction transaction)
+//    {
+//        // Processar transação (lógica existente)
+//
+//        // Publicar evento no Kafka
+//        String message = String.format("Transação registrada: %s", transaction.toString());
+//        kafkaProducerService.sendTransactionEvent(message);
+//    }
+//
+//    public void processTransaction(Transaction transaction)
+//    {
+//        try
+//        {
+//            // Criar mensagem com dados da transação
+//            String message = String.format("Transação registrada: ID=%s, Valor=%s, Status=%s",
+//                                           transaction.getPk_transactions(), transaction.getAmount(), transaction.getStatus());
+//
+//            // Enviar para o Kafka
+//            kafkaProducerService.sendTransactionEvent(message);
+//            log.info("Evento de transação enviado ao Kafka");
+//
+//        }
+//        catch (Exception e)
+//        {
+//            log.error("Erro ao processar transação: {}", e.getMessage());
+//        }
+//    }
 
 }
