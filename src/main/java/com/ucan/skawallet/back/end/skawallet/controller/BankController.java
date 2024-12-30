@@ -23,17 +23,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
-
 @RestController
-@RequestMapping("/api/v1/banks")
+@RequestMapping("/api/*/banks")
 public class BankController
 {
 
     @Autowired
     private BankService bankService;
 
-    // Apenas usuários com role ADMIN podem acessar
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/")
     public ResponseEntity<List<Bank>> getAllBanks()
     {
@@ -41,8 +38,6 @@ public class BankController
         return ResponseEntity.ok(banks);
     }
 
-    // Apenas usuários com role ADMIN ou USER podem acessar
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping("/{pk_banks}")
     public ResponseEntity<Bank> getBankByCode(@PathVariable String pk_banks)
     {
@@ -57,8 +52,6 @@ public class BankController
         }
     }
 
-    // Apenas usuários com role ADMIN podem acessar
-    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/")
     public ResponseEntity<Bank> createBank(@RequestBody Bank bank)
     {
@@ -66,8 +59,6 @@ public class BankController
         return ResponseEntity.status(201).body(createdBank);
     }
 
-    // Apenas usuários com role ADMIN podem acessar
-    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/{pk_banks}")
     public ResponseEntity<Bank> updateBankPartially(@PathVariable Long pk_banks, @RequestBody Map<String, Object> updates)
     {
@@ -86,8 +77,6 @@ public class BankController
         }
     }
 
-    // Apenas usuários com role ADMIN podem acessar
-    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{pk_banks}")
     public ResponseEntity<?> deleteBank(@PathVariable Long pk_banks)
     {

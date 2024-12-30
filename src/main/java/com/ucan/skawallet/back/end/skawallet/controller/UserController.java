@@ -33,7 +33,6 @@ public class UserController
 
     // 1. Criar um novo utilizador
     @PostMapping("/registration")
-    @PreAuthorize("hasRole('ADMIN')") // Apenas ADMIN pode criar utilizadores
     public ResponseEntity<?> registUser(@RequestBody Users user)
     {
         if (user.getName() == null || user.getName().isEmpty())
@@ -58,7 +57,6 @@ public class UserController
 
     // 2. Obter utilizador por ID
     @GetMapping("/{pk_users}")
-    @PreAuthorize("hasRole('ADMIN') or (hasRole('USER') and #pk_users == authentication.principal.id)")
     public ResponseEntity<?> getUserById(@PathVariable("pk_users") Long pk_users)
     {
         Optional<Users> user = userService.getUserById(pk_users);
@@ -74,7 +72,6 @@ public class UserController
 
     // 3. Obter todos os utilizadores
     @GetMapping("/")
-    @PreAuthorize("hasRole('ADMIN')") // Apenas ADMIN pode listar todos os utilizadores
     public ResponseEntity<List<Users>> getAllUsers()
     {
         List<Users> users = userService.ListUsers();
@@ -111,7 +108,6 @@ public class UserController
 
     // 5. Deletar utilizador
     @DeleteMapping("/{pk_users}")
-    @PreAuthorize("hasRole('ADMIN')") // Apenas ADMIN pode deletar utilizadores
     public ResponseEntity<?> deleteUser(@PathVariable Long pk_users)
     {
         Optional<Users> user = userService.getUserById(pk_users);
