@@ -6,13 +6,10 @@ package com.ucan.skawallet.back.end.skawallet.security.config;
 
 import com.ucan.skawallet.back.end.skawallet.security.token.JwtRequestFilter;
 import com.ucan.skawallet.back.end.skawallet.service.UserService;
-import java.util.Properties;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -50,22 +47,6 @@ public class WebSecurityConfig
                 .requestMatchers("/api/*/transaction-history/**").permitAll()
                 .requestMatchers("https://skawallet-backend-api.onrender.com").permitAll() // Permitir acesso a essas rotas
                 .anyRequest().authenticated() // Exige autenticação para qualquer outra requisição
-                )
-                .formLogin(form -> form
-                .loginPage("/login") // Define explicitamente a URL para a página de login
-                .permitAll() // Permite acesso à página de login sem autenticação
-                )
-                .logout(logout -> logout
-                .logoutUrl("/logout")
-                .permitAll() // Permite logout sem autenticação
-                )
-                .sessionManagement(session -> session
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Para segurança sem estado (Stateless)
-                )
-                .oauth2Login(oauth2 -> oauth2
-                .defaultSuccessUrl("/home", true) // Redirecionamento após sucesso no login
-                //                .failureUrl("/login?error=true") // Redirecionar em caso de erro
-                .permitAll() // Permite acesso ao login via OAuth2 sem autenticação
                 )
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class); // Adiciona o filtro JWT antes do filtro de autenticação padrão
 
