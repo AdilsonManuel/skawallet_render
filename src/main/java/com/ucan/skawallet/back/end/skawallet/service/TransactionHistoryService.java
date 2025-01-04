@@ -4,6 +4,7 @@
  */
 package com.ucan.skawallet.back.end.skawallet.service;
 
+import com.ucan.skawallet.back.end.skawallet.model.Transaction;
 import com.ucan.skawallet.back.end.skawallet.model.TransactionHistory;
 import com.ucan.skawallet.back.end.skawallet.repository.TransactionHistoryRepository;
 import java.util.List;
@@ -26,4 +27,5 @@ public class TransactionHistoryService
     {
         return transactionHistoryRepository.findByTransactionPkTransactions(transactionId);
     }
+
 }

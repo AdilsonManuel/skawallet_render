@@ -15,6 +15,7 @@ import com.ucan.skawallet.back.end.skawallet.repository.BankAccountRepository;
 import com.ucan.skawallet.back.end.skawallet.repository.TransactionHistoryRepository;
 import com.ucan.skawallet.back.end.skawallet.repository.TransactionRepository;
 import com.ucan.skawallet.back.end.skawallet.security.AuthenticationFacade;
+import com.ucan.skawallet.back.end.skawallet.utils.TransactionDetailsDTO;
 import java.math.BigDecimal;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -149,6 +150,11 @@ public class TransactionService
         {
             throw new RuntimeException("Permissão negada");
         }
+    }
+
+    public List<TransactionDetailsDTO> getTransactionHistoryByUser(Long fk_users)
+    {
+        return transactionRepository.findTransactionsByUser(fk_users);
     }
 
 }

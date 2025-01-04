@@ -4,6 +4,7 @@
  */
 package com.ucan.skawallet.back.end.skawallet.repository;
 
+import com.ucan.skawallet.back.end.skawallet.model.Transaction;
 import com.ucan.skawallet.back.end.skawallet.model.TransactionHistory;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
