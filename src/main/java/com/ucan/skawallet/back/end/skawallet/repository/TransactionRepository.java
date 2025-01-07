@@ -20,7 +20,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long>
             + "    t.*,\n"
             + "    COALESCE(ba_source.account_number, 'N/A') AS source_account_number,\n"
             + "    COALESCE(ba_dest.account_number, 'N/A') AS destination_account_number,\n"
-            + "    u.name AS user_name\n"
+            + "    u.name AS user_nme\n"
             + "FROM \n"
             + "    transactions t\n"
             + "LEFT JOIN \n"

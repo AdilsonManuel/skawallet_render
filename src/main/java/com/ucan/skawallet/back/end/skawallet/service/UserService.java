@@ -73,11 +73,6 @@ public class UserService implements UserDetailsService
         return userRepository.findByName(username);
     }
 
-//    public Optional<Users> findByNameOrPhone(String identifier)
-//    {
-//        return userRepository.findByName(identifier)
-//                .or(() -> userRepository.findByPhone(identifier));
-//    }
     public String authenticate(String identifier, String password)
     {
         // Buscar o usuário com base no identifier (nome ou telefone)
@@ -102,7 +97,7 @@ public class UserService implements UserDetailsService
     public Users findUserByIdentifier(String identifier)
     {
         return userRepository.findByName(identifier)
-                .or(() -> userRepository.findByPhone(identifier))
+                .or(() -> userRepository.findByEmail(identifier))
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado para o identificador fornecido"));
     }
 
